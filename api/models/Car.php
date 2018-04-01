@@ -1,19 +1,17 @@
 <?php
 
-namespace common\models;
+namespace api\models;
 
 use Yii;
-use yii\db\ActiveRecord;
-
 /**
  * This is the model class for table "car".
  *
- * @property integer $id
+ * @property string $id
  * @property integer $uid
  * @property string $plate_number
  * @property string $brand
  * @property string $color
- * @property integer $type
+ * @property string $type
  * @property string $licheng
  * @property string $chejian_date
  * @property string $chejian_cycle
@@ -22,7 +20,7 @@ use yii\db\ActiveRecord;
  * @property string $reg_year
  * @property string $ctime
  */
-class Car extends ActiveRecord
+class Car extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -39,9 +37,9 @@ class Car extends ActiveRecord
     {
         return [
             [['uid', 'plate_number', 'brand', 'color', 'type', 'licheng', 'chejian_date', 'chejian_cycle', 'chexian_date', 'chexian_cycle', 'reg_year', 'ctime'], 'required'],
-            [['uid', 'type'], 'integer'],
+            [['uid'], 'integer'],
             [['chejian_date', 'chexian_date', 'ctime'], 'safe'],
-            [['plate_number', 'brand', 'licheng'], 'string', 'max' => 255],
+            [['plate_number', 'brand', 'color', 'type', 'licheng', 'chejian_cycle', 'chexian_cycle', 'reg_year'], 'string', 'max' => 255],
         ];
     }
 
@@ -52,23 +50,18 @@ class Car extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'uid' => '用户ID',
-            'plate_number' => '车牌号',
-            'brand' => '品牌',
-            'color' => '颜色',
-            'type' => '燃料形式',
-            'licheng' => '里程数',
-            'chejian_date' => '验车时间',
-            'chejian_cycle' => '验车周期',
-            'chexian_date' => '保险时间',
-            'chexian_cycle' => '保险周期',
-            'reg_year' => '首次上牌时间',
-            'ctime' => '创建时间'
+            'uid' => 'Uid',
+            'plate_number' => 'Plate Number',
+            'brand' => 'Brand',
+            'color' => 'Color',
+            'type' => 'Type',
+            'licheng' => 'Licheng',
+            'chejian_date' => 'Chejian Date',
+            'chejian_cycle' => 'Chejian Cycle',
+            'chexian_date' => 'Chexian Date',
+            'chexian_cycle' => 'Chexian Cycle',
+            'reg_year' => 'Reg Year',
+            'ctime' => 'Ctime',
         ];
-    }
-
-    public static function getCarList($uid, $limit = 5, $by = 'DESC')
-    {
-        return parent::find()->where(['uid' => $uid])->limit($limit)->orderby(['id' => $by])->all();
     }
 }
