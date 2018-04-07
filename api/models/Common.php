@@ -3,11 +3,29 @@
 namespace api\models;
 
 use Yii;
+use api\models\Car;
 
 class Common extends \yii\db\ActiveRecord
 {
     public $enableCsrfValidation = false;
-
+    //设置信息必填
+    //公用验证数据合法性方法
+    /*
+     * $model model层
+     * $where  条件
+     * $action   类型  one   all   count
+     * **/
+    public static function checkModelValue($model,$where,$action="one"){
+        $model = 'api\models\\'.$model;
+        $model = new $model;
+//        $obj = Car::find()->where($where);
+        $obj = $model::find()->where($where);
+        switch($action){
+            case "one": return $obj->asarray()->one();
+            case "all": return $obj->asarray()->all();
+            case "count": return $obj->count();
+        }
+    }
 
 	//转换结果为空数据防止报错
 	public static function ReturnJson($code,$message="",$data=[]){

@@ -42,15 +42,18 @@ class BaoyangController extends Controller
     public function actionSetStartValue(){
         $data = Common::testPost();
         $uid = yii::$app->user->id;
-        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
+//        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
+        $car_info = Common::checkModelValue('Car',['id'=>$data['car_id'],'uid'=>$uid]);
         if(empty($car_info)){
             Common::ReturnJson(100,'请求car_id参数无效');
         }
-        $baoyang_info = Baoyang::find()->where(['uid'=>$uid,'car_id'=>$data['car_id'],'type'=>$data['type']])->asarray()->one();
+//        $baoyang_info = Baoyang::find()->where(['uid'=>$uid,'car_id'=>$data['car_id'],'type'=>$data['type']])->asarray()->one();
+        $baoyang_info = Common::checkModelValue('Baoyang',['uid'=>$uid,'car_id'=>$data['car_id'],'type'=>$data['type']]);
         if(!empty($baoyang_info)){
             Common::ReturnJson(100,'请求保养类型参数无效');
         }
-        $baoyang_type_info = BaoyangType::find()->where(['id'=>$data['type']])->asarray()->one();
+//        $baoyang_type_info = BaoyangType::find()->where(['id'=>$data['type']])->asarray()->one();
+        $baoyang_type_info = Common::checkModelValue('BaoyangType',['id'=>$data['type']]);
         if(empty($baoyang_type_info)){
             Common::ReturnJson(100,'请求保养类型参数无效');
         }
@@ -78,15 +81,18 @@ class BaoyangController extends Controller
         $data = Common::testPost();
         $uid = yii::$app->user->id;
 //            $data = Yii::$app->request->post();
-        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
+//        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
+        $car_info = Common::checkModelValue('Car',['id'=>$data['car_id'],'uid'=>$uid]);
         if(empty($car_info)){
             Common::ReturnJson(100,'请求car_id参数无效');
         }
-        $baoyang_info = Baoyang::find()->where(['uid'=>$uid,'car_id'=>$data['car_id'],'type'=>$data['type']])->asarray()->one();
+//        $baoyang_info = Baoyang::find()->where(['uid'=>$uid,'car_id'=>$data['car_id'],'type'=>$data['type']])->asarray()->one();
+        $baoyang_info = Common::checkModelValue('Baoyang',['uid'=>$uid,'car_id'=>$data['car_id'],'type'=>$data['type']]);
         if(empty($baoyang_info)){
             Common::ReturnJson(100,'请求保养类型参数无效');
         }
         $baoyang_type_info = BaoyangType::find()->where(['id'=>$data['type']])->asarray()->one();
+        $baoyang_type_info = Common::checkModelValue('BaoyangType',['id'=>$data['type']]);
         if(empty($baoyang_type_info)){
             Common::ReturnJson(100,'请求保养类型参数无效');
         }
@@ -109,12 +115,14 @@ class BaoyangController extends Controller
     public function actionGetRecord(){
         $data = Common::testPost(1);
         $uid = yii::$app->user->id;
-        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
+//        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
+        $car_info = Common::checkModelValue('Car',['id'=>$data['car_id'],'uid'=>$uid]);
         if(empty($car_info)){
             Common::ReturnJson(100,'请求car_id参数无效');
         }
         if(!empty($data['type'])){
-            $baoyang_type_info = BaoyangType::find()->where(['id'=>$data['type']])->asarray()->one();
+//            $baoyang_type_info = BaoyangType::find()->where(['id'=>$data['type']])->asarray()->one();
+            $baoyang_type_info = Common::checkModelValue('BaoyangType',['id'=>$data['type']]);
             if(empty($baoyang_type_info)){
                 Common::ReturnJson(100,'请求保养类型参数无效');
             }
@@ -135,7 +143,8 @@ class BaoyangController extends Controller
     public function actionIndex(){
         $data = Common::testPost(1);
         $uid = yii::$app->user->id;
-        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
+//        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
+        $car_info = Common::checkModelValue('Car',['id'=>$data['car_id'],'uid'=>$uid]);
         if(empty($car_info)){
             Common::ReturnJson(100,'请求car_id参数无效');
         }
