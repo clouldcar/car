@@ -103,9 +103,10 @@ class Business extends \yii\db\ActiveRecord
                 $this->pay_type = $data['pay_type'];
                 $this->join_time = strtotime($data['join_time']);
                 $this->end_time = strtotime($data['end_time']);
+                $this->user_id = $data['uid'];
                 //判断有没有注册用户  这个需要再确认一下
             }else{
-                $this->user_id = $data['uid'];
+                $this->saler_id = $data['uid'];
             }
             $status = $this->save();
             if($status===false){
