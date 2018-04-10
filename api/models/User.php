@@ -61,4 +61,16 @@ class User extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+    public function getInfo($uid,$level){
+        switch($level){
+            case 1:$select = '*';
+            break;
+            case 2:$select = '*';
+            break;
+            case 3:$select = '*';
+            break;
+        }
+        $info = $this->find()->where(['id'=>$uid])->select($select)->asarray()->one();
+        return $info;
+    }
 }

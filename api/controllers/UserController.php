@@ -2,6 +2,8 @@
 namespace api\controllers;
 
 use Yii;
+use api\models\Common;
+use api\models\User;
 use common\models\LoginForm;
 use api\models\PasswordResetRequestForm;
 use api\models\ResetPasswordForm;
@@ -22,6 +24,27 @@ class UserController extends BaseController
     public function actionIndex()
     {
         return ['msg' => 'ok'];
+    }
+    //请求菜单项
+    public function actionMenu(){
+        $level = Yii::$app->user->level;
+        if(empty($level))
+            Common::ReturnJson(210,'您还未登陆');
+        $info = Yii::$app->params[$level];
+        Common::ReturnJson(0,'',$info);
+    }
+
+    //查看用户详情
+    public function actionUserinfo(){
+        $uid = Yii::$app->user->id;
+        if(empty($uid))
+            Common::ReturnJson(210,'您还未登陆');
+        $level = Yii::$app->user->level;
+        $User = new User();
+        $info = $User->getInfo($uid,$level);
+        Common::ReturnJson(0,'',$info);
+
+
     }
 
     /**

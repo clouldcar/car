@@ -43,7 +43,7 @@ class Business extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['business_type', 'brand_id', 'join_time', 'end_time', 'pay_type', 'user_id', 'ctime'], 'integer'],
+            [['business_type', 'brand_id', 'join_time', 'end_time', 'pay_type', 'uid', 'ctime'], 'integer'],
             [['money'], 'number'],
             [['name', 'short_name', 'business_code', 'recommend_code'], 'string', 'max' => 100],
             [['service_type', 'detail'], 'string', 'max' => 255],
@@ -73,7 +73,6 @@ class Business extends \yii\db\ActiveRecord
             'end_time' => 'End Time',
             'money' => 'Money',
             'pay_type' => 'Pay Type',
-            'user_id' => 'User ID',
             'ctime' => 'Ctime',
             'business_code' => 'Business Code',
             'recommend_code' => 'Recommend Code',
@@ -91,6 +90,7 @@ class Business extends \yii\db\ActiveRecord
             $this->brand_id = $data['brand_id'];
             $this->service_type = implode(',',$data['name']);
             $this->province = $data['province'];
+            $this->city = $data['city'];
             $this->county = $data['county'];
             $this->detail = $data['detail'];
             $this->phone = $data['phone'];
@@ -103,10 +103,14 @@ class Business extends \yii\db\ActiveRecord
                 $this->pay_type = $data['pay_type'];
                 $this->join_time = strtotime($data['join_time']);
                 $this->end_time = strtotime($data['end_time']);
-                $this->user_id = $data['uid'];
-                //判断有没有注册用户  这个需要再确认一下
+                $userinfo = User::find()->where(['phone'=>$data['phone']])->asarray()->one();
+                if(empty($userinfo)){
+                    //判断有没有注册用户  这个需要再确认一下
+                }else{
+                    $this->uid = $userinfo['id'];
+                }
             }else{
-                $this->saler_id = $data['uid'];
+                $this->uid = $data['uid'];
             }
             $status = $this->save();
             if($status===false){

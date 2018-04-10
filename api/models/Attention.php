@@ -28,7 +28,7 @@ class Attention extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['business_id', 'user_id', 'ctime'], 'integer'],
+            [['business_id', 'uid', 'ctime'], 'integer'],
         ];
     }
 
@@ -40,15 +40,15 @@ class Attention extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'business_id' => 'Business ID',
-            'user_id' => 'User ID',
+            'uid' => 'Uid',
             'ctime' => 'Ctime',
         ];
     }
     //关注或取消关注
     public function attention($data){
-        $obj = $this->find()->where(['user_id'=>$data['uid'],'business_id'=>$data['business_id']])->one();
+        $obj = $this->find()->where(['uid'=>$data['uid'],'business_id'=>$data['business_id']])->one();
         if(empty($obj)){
-            $this->user_id = $data['uid'];
+            $this->uid = $data['uid'];
             $this->business_id = $data['business_id'];
             $this->ctime = time();
             $status = $this->save();
@@ -62,9 +62,9 @@ class Attention extends \yii\db\ActiveRecord
     //获取列表
     public function getList($uid){
         $list = $this->find()->from(self::tableName().' as a')
-                        ->leftjoin(Business::tableName().' as b','b.user_id=a.business_id')
+                        ->leftjoin(Business::tableName().' as b','b.uid=a.business_id')
                         ->leftjoin(Brand::tableName().' as br','br.id=b.brand_id')
-                        ->where(['a.user_id'=>$uid])
+                        ->where(['a.uid'=>$uid])
                         ->select('b.name,b.short_name')
                         ->asarray()
                         ->all();
