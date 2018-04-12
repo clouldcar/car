@@ -15,6 +15,7 @@ class AttentionController extends BaseController
      * **/
     public function actionAttention(){
         $data = Common::testPost();
+        Common::checkMustParams($data,['business_id']);
         $data['uid'] = $uid  = yii::$app->user->id;
         if(empty($uid)){
             Common::ReturnJson(201,'尚未登陆');

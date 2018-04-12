@@ -9,6 +9,16 @@ class Common extends \yii\db\ActiveRecord
 {
     public $enableCsrfValidation = false;
     //设置信息必填
+    //验证必填
+    public static function checkMustParams($data,$params=[]){
+        if(!empty($params)){
+            foreach($params as $key=>$val){
+                if(empty($data[$val])){
+                    self::ReturnJson('100','请求参数错误');
+                }
+            }
+        }
+    }
     //公用验证数据合法性方法
     /*
      * $model model层

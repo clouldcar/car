@@ -98,4 +98,14 @@ class SignupForm extends Model
     {
         return rand(pow(10,(6-1)), pow(10,6)-1);
     }
+    //注册方法
+    public static function register($data){
+        $user = new User();
+        $user->phone = $data['phone'];
+        // $user->nickname = $this->nickname;
+        $user->setPassword($data['password']);
+        $user->generateAuthKey();
+
+        return $user->save();
+    }
 }

@@ -41,6 +41,7 @@ class BaoyangController extends Controller
      * **/
     public function actionSetStartValue(){
         $data = Common::testPost();
+        Common::checkMustParams($data,['car_id','type','last_licheng','zhouqi','last_date','month_space']);
         $uid = yii::$app->user->id;
 //        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
         $car_info = Common::checkModelValue('Car',['id'=>$data['car_id'],'uid'=>$uid]);
@@ -79,6 +80,7 @@ class BaoyangController extends Controller
      * **/
     public function actionSetBaoyangValue(){
         $data = Common::testPost();
+        Common::checkMustParams($data,['car_id','type','licheng','baoyang_date']);
         $uid = yii::$app->user->id;
 //            $data = Yii::$app->request->post();
 //        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
@@ -114,6 +116,7 @@ class BaoyangController extends Controller
      * **/
     public function actionGetRecord(){
         $data = Common::testPost(1);
+        Common::checkMustParams($data,['car_id','type']);
         $uid = yii::$app->user->id;
 //        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
         $car_info = Common::checkModelValue('Car',['id'=>$data['car_id'],'uid'=>$uid]);
@@ -142,6 +145,7 @@ class BaoyangController extends Controller
      * **/
     public function actionIndex(){
         $data = Common::testPost(1);
+        Common::checkMustParams($data,['car_id','licheng']);
         $uid = yii::$app->user->id;
 //        $car_info = Car::find()->where(['id'=>$data['car_id'],'uid'=>$uid])->asarray()->one();
         $car_info = Common::checkModelValue('Car',['id'=>$data['car_id'],'uid'=>$uid]);

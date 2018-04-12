@@ -106,6 +106,11 @@ class Business extends \yii\db\ActiveRecord
                 $userinfo = User::find()->where(['phone'=>$data['phone']])->asarray()->one();
                 if(empty($userinfo)){
                     //判断有没有注册用户  这个需要再确认一下
+                    $status = SignupForm::register($data['phone'],'1q2w3e');
+                    if($status===false){
+                        $transaction->rollBack();
+                        return false;
+                    }
                 }else{
                     $this->uid = $userinfo['id'];
                 }
