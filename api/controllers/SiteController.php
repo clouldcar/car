@@ -31,7 +31,9 @@ class SiteController extends BaseController
         return $this->render('index');
     }
 
-
+    public function actionTest(){
+        echo 11;
+    }
     // 首页广告
     // http://yii-api.lg/site/ads
     public function actionAds()
