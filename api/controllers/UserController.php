@@ -27,10 +27,12 @@ class UserController extends BaseController
     }
     //请求菜单项
     public function actionMenu(){
-        $level = Yii::$app->user->level;
-        if(empty($level))
+        $uid = Yii::$app->user->id;
+        if(empty($uid))
             Common::ReturnJson(210,'您还未登陆');
-        $info = Yii::$app->params[$level];
+        $User = new User();
+        $level = $User->getOne($uid,'level',2);
+        $info = Yii::$app->params['user_menu'][$level];
         Common::ReturnJson(0,'',$info);
     }
 
@@ -39,9 +41,8 @@ class UserController extends BaseController
         $uid = Yii::$app->user->id;
         if(empty($uid))
             Common::ReturnJson(210,'您还未登陆');
-        $level = Yii::$app->user->level;
         $User = new User();
-        $info = $User->getInfo($uid,$level);
+        $info = $User->getInfo($uid);
         Common::ReturnJson(0,'',$info);
 
 

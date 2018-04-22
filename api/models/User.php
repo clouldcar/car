@@ -18,6 +18,7 @@ use Yii;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $level
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -36,7 +37,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['phone', 'auth_key', 'password_hash', 'created_at', 'updated_at'], 'required'],
-            [['phone', 'role', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['phone', 'role', 'status', 'created_at', 'updated_at', 'level'], 'integer'],
             [['nickname', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
         ];
@@ -59,18 +60,30 @@ class User extends \yii\db\ActiveRecord
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'level' => 'Level',
         ];
     }
-    public function getInfo($uid,$level){
-        switch($level){
-            case 1:$select = '*';
-            break;
-            case 2:$select = '*';
-            break;
-            case 3:$select = '*';
-            break;
+    public function getInfo($uid){
+        $info = $this->find()->where(['id'=>$uid])->asarray()->one();
+        $field = Yii::$app->params['field_level'][$info['level']];
+        if($field=='*'){
+            return $info;
+        }else{
+            $result = [];
+            foreach($info as $key=>$val){
+                if(in_array($key,$field)){
+                    $result[$key] = $val;
+                }
+            }
+            return $result;
         }
-        $info = $this->find()->where(['id'=>$uid])->select($select)->asarray()->one();
-        return $info;
+
+    }
+    public function getOne($uid,$field="*",$type=1){
+        $userinfo = $this->find()->where(['id'=>$uid])->select($field)->asarray()->one();
+        if($type==1)
+            return $userinfo;
+        else
+            return $userinfo[$field];
     }
 }
